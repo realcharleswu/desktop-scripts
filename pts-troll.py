@@ -12,14 +12,22 @@ def deploy_troll():
 
     own_tty = get_own_tty()
     other_tty_list = [tty for tty in os.listdir("/dev/pts") if tty not in [own_tty, "ptmx"]]
-    for tty_num in other_tty:
-        os.system("cat assets/duck_ascii.txt > /dev/pts/{}".format(tty_num))
+    
+    if not other_tty_list:
+        print("No other terminal sessions seen! Exiting!")
+        return
+    else:
+        for tty_num in other_tty:
+            os.system("cat assets/duck_ascii.txt > /dev/pts/{}".format(tty_num))
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.parse_args()
+    
     msg = "Deploy an ascii file with optional extra reason to all other terminal sessions logged in."
+    
+    parser = argparse.ArgumentParser(description = msg)
+    parser.parse_args()
+    
     deploy_troll()
 
 
