@@ -11,15 +11,15 @@ def get_own_tty():
 def deploy_troll():
 
     own_tty = get_own_tty()
-    other_tty = [tty for tty in os.listdir("/dev/pts") if tty not in [own_tty, "ptmx"]]
+    other_tty_list = [tty for tty in os.listdir("/dev/pts") if tty not in [own_tty, "ptmx"]]
     for tty_num in other_tty:
         os.system("cat assets/duck_ascii.txt > /dev/pts/{}".format(tty_num))
-    #print(other_tty)
+
 
 def main():
     parser = argparse.ArgumentParser()
     parser.parse_args()
-
+    msg = "Deploy an ascii file with optional extra reason to all other terminal sessions logged in."
     deploy_troll()
 
 
